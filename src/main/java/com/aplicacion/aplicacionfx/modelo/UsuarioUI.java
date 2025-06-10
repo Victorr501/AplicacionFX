@@ -78,4 +78,16 @@ public class UsuarioUI {
     public BooleanProperty Activo() {
         return activo;
     }
+
+    @Override
+    public String toString(){
+        return "UsuarioUI{" +
+                "id='" + id.get() + '\'' +
+                ", nombre='" + nombre.get() + '\'' +
+                ", email='" + email.get() + '\'' +
+                ", nombreUsuario='" + nombreUsuario.get() + '\'' +
+                ", rol='" + rol.get() + '\'' +
+                ", activo=" + activo.get() +
+                '}';
+    }
 }

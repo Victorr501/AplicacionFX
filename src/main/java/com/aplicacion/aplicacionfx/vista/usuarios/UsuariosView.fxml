@@ -6,8 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <VBox alignment="CENTER" spacing="10" prefHeight="600.0" prefWidth="600"
       xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.aplicacion.aplicacionfx.vista.usuarios.UsuariosController">
 
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Gestion de Usuarios" style="-fx-font-sizi: 24px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Cargar Usuarios" onAction="#handleCargarUsuarios"/>
+        <Button text="Añadir Usuario" onAction="#handleAnadirUsuario"/>
+        <Button text="Editar Usuario" onAction="#handleEditarUsuario"/>
+        <Button text="Eliminar Usuario" onAction="#handleEliminarUsuario"/>
+    </HBox>
 </VBox>

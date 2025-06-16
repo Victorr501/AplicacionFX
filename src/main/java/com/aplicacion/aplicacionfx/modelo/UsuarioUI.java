@@ -15,13 +15,13 @@ public class UsuarioUI {
     private BooleanProperty activo;
 
     //Constructores
-    public UsuarioUI(String id, String nombre, String email, String nombreUsuario, String rol, LocalDate fechaRegistro, Boolean activo){
+    public UsuarioUI(String id, String nombre, String email, String nombreUsuario, String rol, Boolean activo){
         this.id = new SimpleStringProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.email = new SimpleStringProperty(email);
         this.nombreUsuario = new SimpleStringProperty(nombreUsuario);
         this.rol = new SimpleStringProperty(rol);
-        this.fechaRegitro = new SimpleObjectProperty<>(fechaRegistro);
+        this.fechaRegitro = new SimpleObjectProperty<>(LocalDate.now());
         this.activo = new SimpleBooleanProperty(activo);
     }
 

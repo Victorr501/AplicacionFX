@@ -8,6 +8,7 @@ module AplicacionFX {
 
     // Abre el paquete de tus controladores para que FXMLLoader pueda instanciarlos y inyectar @FXML
     opens com.aplicacion.aplicacionfx.vista.usuarios to javafx.fxml;
+    opens com.aplicacion.aplicacionfx.vista.registro to javafx.fxml;
 
     // Abre el paquete de tus clases de modelo (UsuarioUI) para que JavaFX.base pueda acceder vía reflexión
     opens com.aplicacion.aplicacionfx.modelo to javafx.base;

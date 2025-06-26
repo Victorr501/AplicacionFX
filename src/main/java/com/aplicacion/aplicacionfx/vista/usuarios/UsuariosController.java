@@ -4,13 +4,19 @@ import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.event.ActionEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -73,10 +79,48 @@ public class UsuariosController implements Initializable {
     }
 
     @FXML
-    private void handleCargarUsuarios(ActionEvent event){}
+    private void handleCargarUsuarios(ActionEvent event){
+
+    }
 
     @FXML
-    private void handleAnadirUsuario(ActionEvent event){}
+    private void handleAnadirUsuario(ActionEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/aplicacion/aplicacionfx/vista/registro/RegistroView.fxml"));
+            Parent root = fxmlLoader.load();
+            // Opcional: Si necesitas pasar datos al RegistroController, hazlo AQUÍ
+            // RegistroController registroController = fxmlLoader.getController();
+            // registroController.setSomeData(data); // Un método que crees en RegistroController
+
+            // 2. Crear un nuevo Stage (ventana)
+            Stage registroStage = new Stage();
+            registroStage.setTitle("Registrar Nuevo Usuario");
+            registroStage.setScene(new Scene(root));
+
+            // 3. Configurar la ventana como modal (opcional pero común para formularios)
+            //    Esto bloquea la interacción con la ventana principal hasta que se cierra esta.
+            registroStage.initModality(Modality.APPLICATION_MODAL); // O Modality.WINDOW_MODAL si quieres que bloquee solo a su ventana padre
+
+            // 4. Establecer el propietario del Stage (la ventana actual)
+            //    Esto es útil si usas Modality.WINDOW_MODAL, para que la nueva ventana
+            //    se superponga a la padre y se minimice/restaure con ella.
+            Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            registroStage.initOwner(currentStage);
+
+
+            // 5. Mostrar la nueva ventana y esperar a que se cierre (si es modal)
+            registroStage.showAndWait();
+
+            // Opcional: Cuando la ventana de registro se cierra, puedes refrescar la tabla de usuarios
+            // Por ejemplo, si el registro fue exitoso
+            // handleCargarUsuarios(null); // Recarga los usuarios para ver el nuevo
+            // O puedes pasar una referencia para que el registro controller notifique a este.
+
+        } catch (Exception e){
+            e.printStackTrace();
+            mensajeEstado.setText("Error al abrir formulario de registro");
+        }
+    }
 
     @FXML
     private void handleEditarUsuario(ActionEvent event){}

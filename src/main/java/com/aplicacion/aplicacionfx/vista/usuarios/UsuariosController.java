@@ -57,7 +57,7 @@ public class UsuariosController implements Initializable {
         columnaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         columnaActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
-
+        usuarioServicio = new UsuarioServicio();
         //Es de prueba y se modificara en un futuro
         cargarUsuariosDePrueba();
 
@@ -68,8 +68,6 @@ public class UsuariosController implements Initializable {
     }
 
     private void cargarUsuariosDePrueba() {
-        usuarioServicio = new UsuarioServicio();
-
         listaUsuarios.clear();
         listaUsuarios = usuarioServicio.obtenerTodosLosUsuarios();
 
@@ -78,7 +76,9 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void handleCargarUsuarios(ActionEvent event){
-
+        cargarUsuariosDePrueba();
+        // aqqui es donde se carga los datos en la base de datos
+        tablaUsuarios.setItems(listaUsuarios);
     }
 
     @FXML
@@ -121,7 +121,9 @@ public class UsuariosController implements Initializable {
     }
 
     @FXML
-    private void handleEditarUsuario(ActionEvent event){}
+    private void handleEditarUsuario(ActionEvent event){
+
+    }
 
     @FXML
     private void handleEliminarUsuario(ActionEvent event){

@@ -1,5 +1,6 @@
 package com.aplicacion.aplicacionfx.vista.registro;
 
+import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
 import com.aplicacion.aplicacionfx.servicio.UsuarioServicio;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,11 +64,37 @@ public class RegistroController implements Initializable {
             mensajeErrorLabel.setText("La contraseña es muy corta");
             return;
         }
+
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")){
+            mensajeErrorLabel.setText("El formato del email no es valido");
+            return;
+        }
+
+        UsuarioUI nuevoUsuario =  new UsuarioUI(null, nombre, email, rol,activo);
+
+        try {
+
+            mensajeErrorLabel.setText("Usuario registrado con éxito");
+            cleanForm();
+        } catch (Exception e){
+            mensajeErrorLabel.setText("Error al registrar usuario");
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleCancelarRegistro(ActionEvent event){
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    private void cleanForm(){
+        nombreField.clear();
+        emailField.clear();
+        passwordField.clear();
+        confirmarPasswordField.clear();
+        rolComboBox.getSelectionModel().selectFirst();
+        activoCheckBox.setSelected(true);
+        mensajeErrorLabel.setText("");
     }
 }

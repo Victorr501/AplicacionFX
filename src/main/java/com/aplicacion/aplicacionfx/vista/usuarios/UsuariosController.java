@@ -1,6 +1,7 @@
 package com.aplicacion.aplicacionfx.vista.usuarios;
 
 import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
+import com.aplicacion.aplicacionfx.servicio.UsuarioServicio;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,11 +34,13 @@ public class UsuariosController implements Initializable {
     @FXML private Label mensajeEstado;
 
 
+
+
     // --- Fuente de datos para la tabla ---
     // Esta ObservableList contendrá los objetos UsuarioUI que se mostrarán en la tabla.
     // Cuando modificas esta lista, la tabla se actualiza automáticamente.
     private ObservableList<UsuarioUI> listaUsuarios = FXCollections.observableArrayList();
-
+    private UsuarioServicio usuarioServicio;
 
     /**
      * Este método se llama automáticamente por JavaFX después de que todos los
@@ -65,15 +68,10 @@ public class UsuariosController implements Initializable {
     }
 
     private void cargarUsuariosDePrueba() {
+        usuarioServicio = new UsuarioServicio();
+
         listaUsuarios.clear();
-
-        // Crea algunos objetos UsuarioUI de ejemplo
-        UsuarioUI user1 = new UsuarioUI("u001", "Ana García", "ana.garcia@example.com", "anagar", "USER", true);
-        UsuarioUI user2 = new UsuarioUI("u002", "Pedro López", "pedro.lopez@example.com", "plopez", "ADMIN", true);
-        UsuarioUI user3 = new UsuarioUI("u003", "Marta Ruiz", "marta.ruiz@example.com", "mruiz", "USER", false);
-        UsuarioUI user4 = new UsuarioUI("u004", "Luis Fernández", "luis.f@example.com", "lfernandez", "EDITOR", true);
-
-        listaUsuarios.addAll(user1,user2,user3,user4);
+        listaUsuarios = usuarioServicio.obtenerTodosLosUsuarios();
 
         mensajeEstado.setText("Usuarios de prueba cargados");
     }

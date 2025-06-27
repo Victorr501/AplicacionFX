@@ -143,6 +143,8 @@ public class UsuariosController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK){
             try {
                 usuarioServicio.eliminarUsuario(usuarioSelecionado.getId());
+
+                tablaUsuarios.getItems().remove(usuarioSelecionado);
                 mensajeEstado.setText("Usuario " + usuarioSelecionado.getNombre() + "eliminado exitosamente.");
             } catch (Exception e){
                 mensajeEstado.setText("Error al elimiar usuario: " + e.getMessage());

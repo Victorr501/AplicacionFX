@@ -9,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.event.ActionEvent;
@@ -19,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UsuariosController implements Initializable {
@@ -127,6 +126,30 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void handleEliminarUsuario(ActionEvent event){
+        UsuarioUI usuarioSelecionado = tablaUsuarios.getSelectionModel().getSelectedItem();
 
+        if (usuarioSelecionado == null){
+            mensajeEstado.setText("Por favor, selecciona un usuario para eliminar.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cofirmar Eliminación");
+        alert.setHeaderText("¿Estas seguro que quieres eliminar a " + usuarioSelecionado.getNombre() + "?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                usuarioServicio.eliminarUsuario(usuarioSelecionado.getId());
+                mensajeEstado.setText("Usuario " + usuarioSelecionado.getNombre() + "eliminado exitosamente.");
+            } catch (Exception e){
+                mensajeEstado.setText("Error al elimiar usuario: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            mensajeEstado.setText("Eliminación de usuario cacelada.");
+        }
     }
 }

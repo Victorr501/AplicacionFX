@@ -2,6 +2,8 @@ module AplicacionFX {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires com.google.gson;
+    requires okhttp3;
 
     // Exporta el paquete de tu MainAplicacionFX para que JavaFX pueda lanzar tu app
     exports com.aplicacion.aplicacionfx;

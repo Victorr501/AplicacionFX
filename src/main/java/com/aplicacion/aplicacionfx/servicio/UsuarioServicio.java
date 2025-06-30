@@ -37,17 +37,24 @@ public class UsuarioServicio {
 
     // Convierte de UsuarioUI a UsuarioDTO
     private UsuarioDTO convertToUsuarioDTO(UsuarioUI ui) {
-        return new UsuarioDTO(
-                Long.parseLong(ui.getId()),
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO(
+                null,
                 ui.getNombre(),
                 ui.getEmail(),
                 ui.getPasswordHash(),
                 ui.getRol(),
                 ui.isActivo()
         );
+        if (ui.getId() != null){
+           usuarioDTO.setId(Long.parseLong(ui.getId()));
+        }
+        return usuarioDTO;
     }
 
-    public UsuarioUI registrarUsuario(UsuarioUI nuevoUsuario, String password) throws Exception {
+    public UsuarioUI registrarUsuario(UsuarioUI nuevoUsuario) throws Exception {
+        UsuarioDTO usuarioDTO = convertToUsuarioDTO(nuevoUsuario);
+        apiClient.createUsuario(usuarioDTO);
         return null;
     }
 

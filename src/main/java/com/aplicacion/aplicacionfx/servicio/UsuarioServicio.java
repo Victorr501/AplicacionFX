@@ -3,10 +3,14 @@ package com.aplicacion.aplicacionfx.servicio;
 import com.aplicacion.aplicacionfx.cliente.api.UsuarioApiClient;
 import com.aplicacion.aplicacionfx.cliente.dto.UsuarioDTO;
 import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,7 +26,7 @@ public class UsuarioServicio {
     // Convierte de UsuarioDTO a UsuarioUI
     private UsuarioUI convertToUsuarioUI(UsuarioDTO dto) {
         return new UsuarioUI(
-                Long.toString(dto.getId());
+                Long.toString(dto.getId()),
                 dto.getNombre(),
                 dto.getEmail(),
                 dto.getPasswordHash(),
@@ -47,8 +51,16 @@ public class UsuarioServicio {
         return null;
     }
 
-    public ObservableList<UsuarioUI> obtenerTodosLosUsuarios(){
-        return null;
+    public ObservableList<UsuarioUI> obtenerTodosLosUsuarios() throws IOException {
+        List<UsuarioDTO> usuariosDTO = apiClient.getAllUsuarios();
+
+        List<UsuarioUI> usuariosUI = new ArrayList<>();
+        for (UsuarioDTO u : usuariosDTO){
+            usuariosUI.add(convertToUsuarioUI(u));
+        }
+        final ObservableList<UsuarioUI> observableList = FXCollections.observableArrayList();
+        Platform.runLater(() -> observableList.setAll(usuariosUI)); // Asegura que la ObservableList se actualice en el hilo FX
+        return observableList;
     }
 
     public UsuarioUI obtenerUsuarioPorId(String id){

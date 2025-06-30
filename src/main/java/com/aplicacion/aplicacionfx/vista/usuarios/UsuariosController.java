@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -58,7 +59,11 @@ public class UsuariosController implements Initializable {
         columnaActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
         usuarioServicio = new UsuarioServicio();
         //Es de prueba y se modificara en un futuro
-        cargarUsuariosDePrueba();
+        try {
+            cargarUsuariosDePrueba();
+        } catch (IOException e) {
+            mensajeEstado.setText("Error al cargar usuarios");
+        }
 
 
         // 2. Vincular la ObservableList a la TableView
@@ -66,7 +71,8 @@ public class UsuariosController implements Initializable {
         tablaUsuarios.setItems(listaUsuarios);
     }
 
-    private void cargarUsuariosDePrueba() {
+    private void cargarUsuariosDePrueba() throws IOException {
+
         listaUsuarios.clear();
         listaUsuarios = usuarioServicio.obtenerTodosLosUsuarios();
 
@@ -75,7 +81,11 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void handleCargarUsuarios(ActionEvent event){
-        cargarUsuariosDePrueba();
+        try {
+            cargarUsuariosDePrueba();
+        } catch (IOException e) {
+            mensajeEstado.setText("Error al cargar usuarios");
+        }
         // aqqui es donde se carga los datos en la base de datos
         tablaUsuarios.setItems(listaUsuarios);
     }

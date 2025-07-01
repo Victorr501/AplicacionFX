@@ -2,6 +2,7 @@ package com.aplicacion.aplicacionfx.vista.usuarios;
 
 import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
 import com.aplicacion.aplicacionfx.servicio.UsuarioServicio;
+import com.aplicacion.aplicacionfx.vista.actualizar.ActualizarController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -131,25 +132,32 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void handleEditarUsuario(ActionEvent event){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/aplicacion/aplicacionfx/vista/actualizar/ActualizarView.fxml"));
-            Parent root = fxmlLoader.load();
+        UsuarioUI selectedUser = tablaUsuarios.getSelectionModel().getSelectedItem();
+        if (selectedUser != null && selectedUser.getId() != null){
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/com/aplicacion/aplicacionfx/vista/actualizar/ActualizarView.fxml"));
 
-            Stage registroStage = new Stage();
-            registroStage.setTitle("Acatualizar Usuario");
-            registroStage.setScene(new Scene(root));
+                Stage actualizacionStage = new Stage();
+                actualizacionStage.setTitle("Acatualizar Usuario");
+                actualizacionStage.initModality(Modality.APPLICATION_MODAL);
+                actualizacionStage.initOwner(tablaUsuarios.getScene().getWindow());
+                Scene scene = new Scene(fxmlLoader.load());
+                actualizacionStage.setScene(scene);
 
-            registroStage.initModality(Modality.APPLICATION_MODAL);
+                ActualizarController controller = fxmlLoader.getController();
 
-            Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            registroStage.initOwner(currentStage);
+                controller.setUserId(selectedUser.getId());
+                controller.setDialogStage(actualizacionStage);
 
-            registroStage.showAndWait();
+                actualizacionStage.showAndWait();
 
-        } catch (Exception e){
-            e.printStackTrace();
-            mensajeEstado.setText("Error al abrir formulario de registro");
+            } catch (Exception e){
+                e.printStackTrace();
+                mensajeEstado.setText("Error al abrir formulario de actualizacion");
+            }
         }
+
     }
 
     @FXML

@@ -131,7 +131,25 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void handleEditarUsuario(ActionEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/aplicacion/aplicacionfx/vista/actualizar/ActualizarView.fxml"));
+            Parent root = fxmlLoader.load();
 
+            Stage registroStage = new Stage();
+            registroStage.setTitle("Acatualizar Usuario");
+            registroStage.setScene(new Scene(root));
+
+            registroStage.initModality(Modality.APPLICATION_MODAL);
+
+            Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            registroStage.initOwner(currentStage);
+
+            registroStage.showAndWait();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            mensajeEstado.setText("Error al abrir formulario de registro");
+        }
     }
 
     @FXML

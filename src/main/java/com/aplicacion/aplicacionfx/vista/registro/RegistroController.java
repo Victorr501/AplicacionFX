@@ -70,14 +70,14 @@ public class RegistroController implements Initializable {
             return;
         }
 
-        UsuarioUI nuevoUsuario =  new UsuarioUI(null, nombre, email, rol,password, activo);
+        UsuarioUI nuevoUsuario =  new UsuarioUI(null, nombre, email, password,rol, activo);
 
 
         try {
             UsuarioUI usuarioRegidtrado = usuarioServicio.registrarUsuario(nuevoUsuario);
-
-            mensajeErrorLabel.setText("Usuario registrado con éxito");
             cleanForm();
+            mensajeErrorLabel.setText("Usuario registrado con éxito");
+
         } catch (Exception e){
             mensajeErrorLabel.setText("Error al registrar usuario");
             e.printStackTrace();

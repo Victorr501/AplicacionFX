@@ -79,6 +79,7 @@ public class UsuarioServicio {
     }
 
     public void eliminarUsuario(String id) throws Exception{
-
+        Long idLong = Long.getLong(id);
+        apiClient.deleteUsuario(idLong);
     }
 }

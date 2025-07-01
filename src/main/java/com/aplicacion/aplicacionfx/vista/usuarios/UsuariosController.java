@@ -60,7 +60,7 @@ public class UsuariosController implements Initializable {
         usuarioServicio = new UsuarioServicio();
         //Es de prueba y se modificara en un futuro
         try {
-            cargarUsuariosDePrueba();
+            cargarUsuarios();
         } catch (IOException e) {
             mensajeEstado.setText("Error al cargar usuarios");
         }
@@ -71,7 +71,7 @@ public class UsuariosController implements Initializable {
         tablaUsuarios.setItems(listaUsuarios);
     }
 
-    private void cargarUsuariosDePrueba() throws IOException {
+    private void cargarUsuarios() throws IOException {
 
         listaUsuarios.clear();
         listaUsuarios = usuarioServicio.obtenerTodosLosUsuarios();
@@ -82,7 +82,7 @@ public class UsuariosController implements Initializable {
     @FXML
     private void handleCargarUsuarios(ActionEvent event){
         try {
-            cargarUsuariosDePrueba();
+            cargarUsuarios();
         } catch (IOException e) {
             mensajeEstado.setText("Error al cargar usuarios");
         }

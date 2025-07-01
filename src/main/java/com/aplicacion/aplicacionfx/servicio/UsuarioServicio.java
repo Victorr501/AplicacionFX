@@ -79,7 +79,15 @@ public class UsuarioServicio {
     }
 
     public void eliminarUsuario(String id) throws Exception{
-        Long idLong = Long.getLong(id);
+        if (id == null || id.trim().isEmpty() || "null".equalsIgnoreCase(id.trim())) {
+            throw new IllegalArgumentException("El ID proporcionado no es válido para eliminar un usuario.");
+        }
+        Long idLong = null;
+        try {
+            idLong = Long.parseLong(id.trim()); // <-- ¡Usa parseLong o valueOf!
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("El ID proporcionado no es un número válido: " + id, e);
+        }
         apiClient.deleteUsuario(idLong);
     }
 }

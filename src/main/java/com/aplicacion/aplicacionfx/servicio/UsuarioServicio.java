@@ -8,10 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class UsuarioServicio {
@@ -55,7 +52,7 @@ public class UsuarioServicio {
     public UsuarioUI registrarUsuario(UsuarioUI nuevoUsuario) throws Exception {
         UsuarioDTO usuarioDTO = convertToUsuarioDTO(nuevoUsuario);
         apiClient.createUsuario(usuarioDTO);
-        return null;
+        return nuevoUsuario;
     }
 
     public ObservableList<UsuarioUI> obtenerTodosLosUsuarios() throws IOException {
@@ -70,8 +67,29 @@ public class UsuarioServicio {
         return observableList;
     }
 
-    public UsuarioUI obtenerUsuarioPorId(String id){
-        return null;
+    public UsuarioUI obtenerUsuarioPorId(String id) throws Exception{
+        if (id == null || id.trim().isEmpty() || "null".equalsIgnoreCase(id.trim())){
+            throw new IllegalArgumentException("El ID proporcionado no es valido para obtener un usuario");
+        }
+        Long idLong = null;
+        try {
+            idLong = Long.parseLong(id.trim());
+        } catch (NumberFormatException e){
+            throw new IllegalArgumentException("El ID proporionado no es un número valido: " + id, e);
+        }
+        Optional<UsuarioDTO> optionalUsuarioDTO;
+        try {
+            optionalUsuarioDTO = apiClient.getUsuarioById(idLong);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (optionalUsuarioDTO.isPresent()){
+            UsuarioDTO usuarioDTO = optionalUsuarioDTO.get();
+            UsuarioUI usuarioUI = convertToUsuarioUI(usuarioDTO);
+            return usuarioUI;
+        } else {
+            return null;
+        }
     }
 
     public UsuarioUI actualizarUsuario(UsuarioUI usuarioActualizado) throws Exception{

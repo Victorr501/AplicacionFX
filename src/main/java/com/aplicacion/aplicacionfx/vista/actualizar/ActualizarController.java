@@ -1,11 +1,13 @@
 package com.aplicacion.aplicacionfx.vista.actualizar;
 
+import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
 import com.aplicacion.aplicacionfx.servicio.UsuarioServicio;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -23,6 +25,7 @@ public class ActualizarController {
     @FXML
     private CheckBox activoCheckBox;
 
+    @FXML private Label mensajeErrorLabel;
 
     private UsuarioServicio usuarioServicio;
     private String id;
@@ -34,14 +37,37 @@ public class ActualizarController {
 
     public void setUserId(String userId){
         this.id = userId;
-        cargarDatosUsuario(id);
+        try {
+            cargarDatosUsuario(id);
+        } catch (Exception e) {
+            System.err.println("Error al cargar el usuario " + e );
+        }
     }
 
     public void setDialogStage(Stage dialogStage){
         this.dialogStage = dialogStage;
     }
 
-    private void cargarDatosUsuario(String id){
+    private void cargarDatosUsuario(String id) throws Exception {
+        rolComboBox.getItems().addAll("Administrador", "Usuario", "Invitado");
+
+        UsuarioUI ui = usuarioServicio.obtenerUsuarioPorId(id);
+        if (id == null){
+            mensajeErrorLabel.setText("No se pudo encontrar el usuario");
+            return;
+        }
+        if (!ui.getNombre().isEmpty()){
+            nombreField.setText(ui.getNombre());
+        }
+        if (!ui.getEmail().isEmpty()){
+            emailField.setText(ui.getEmail());
+        }
+        if (!ui.getRol().isEmpty()){
+            rolComboBox.getSelectionModel().select(ui.getRol());
+        } else {
+            rolComboBox.getSelectionModel().clearSelection();
+        }
+        activoCheckBox.setSelected(ui.isActivo());
 
     }
 

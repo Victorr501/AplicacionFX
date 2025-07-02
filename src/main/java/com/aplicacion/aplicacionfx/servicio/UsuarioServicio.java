@@ -93,7 +93,9 @@ public class UsuarioServicio {
     }
 
     public UsuarioUI actualizarUsuario(UsuarioUI usuarioActualizado) throws Exception{
-        return null;
+        UsuarioDTO usuarioDTO = convertToUsuarioDTO(usuarioActualizado);
+        apiClient.updateUsuario(usuarioDTO);
+        return usuarioActualizado;
     }
 
     public void eliminarUsuario(String id) throws Exception{

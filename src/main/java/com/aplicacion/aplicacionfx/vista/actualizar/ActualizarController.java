@@ -72,8 +72,30 @@ public class ActualizarController {
     }
 
     @FXML
-    private void handleActualizar(ActionEvent event){
+    private void handleActualizar(ActionEvent event) throws Exception {
+        String nombre = nombreField.getText();
+        String mail = emailField.getText();
+        String rol = rolComboBox.getSelectionModel().getSelectedItem();
+        Boolean actvio = activoCheckBox.isSelected();
 
+        UsuarioUI ui = usuarioServicio.obtenerUsuarioPorId(id);
+        if (nombre.isEmpty() || mail.isEmpty() || rol == null){
+            mensajeErrorLabel.setText("Tienes que rellenar todos los campos");
+            return;
+        }
+
+        if (!mail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")){
+            mensajeErrorLabel.setText("Tienes que poner un mail valido");
+            return;
+        }
+
+        ui.setNombre(nombre);
+        ui.setEmail(mail);
+        ui.setRol(rol);
+        ui.setActivo(actvio);
+
+        usuarioServicio.actualizarUsuario(ui);
+        mensajeErrorLabel.setText("Se ha actualizado el usuario con id " + ui.getId() );
     }
 
     @FXML

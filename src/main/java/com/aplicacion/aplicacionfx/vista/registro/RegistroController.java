@@ -82,10 +82,16 @@ public class RegistroController implements Initializable {
             mensajeErrorLabel.setText("Error al registrar usuario");
             e.printStackTrace();
         }
+
+        cerrarVentana(event);
     }
 
     @FXML
     private void handleCancelarRegistro(ActionEvent event){
+        cerrarVentana(event);
+    }
+
+    private void cerrarVentana(ActionEvent event){
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         stage.close();
     }

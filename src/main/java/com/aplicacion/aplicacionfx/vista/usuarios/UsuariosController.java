@@ -37,6 +37,7 @@ public class UsuariosController implements Initializable {
 
 
 
+
     // --- Fuente de datos para la tabla ---
     // Esta ObservableList contendrá los objetos UsuarioUI que se mostrarán en la tabla.
     // Cuando modificas esta lista, la tabla se actualiza automáticamente.
@@ -77,7 +78,7 @@ public class UsuariosController implements Initializable {
         listaUsuarios.clear();
         listaUsuarios = usuarioServicio.obtenerTodosLosUsuarios();
 
-        mensajeEstado.setText("Usuarios de prueba cargados");
+        mensajeEstado.setText("Usuarios cargados");
     }
 
     @FXML
@@ -121,7 +122,7 @@ public class UsuariosController implements Initializable {
 
             // Opcional: Cuando la ventana de registro se cierra, puedes refrescar la tabla de usuarios
             // Por ejemplo, si el registro fue exitoso
-            // handleCargarUsuarios(null); // Recarga los usuarios para ver el nuevo
+            handleCargarUsuarios(null); // Recarga los usuarios para ver el nuevo
             // O puedes pasar una referencia para que el registro controller notifique a este.
 
         } catch (Exception e){

@@ -3,6 +3,7 @@ package com.aplicacion.aplicacionfx.cliente.api;
 
  // ¡Importa el DTO!
 import com.aplicacion.aplicacionfx.cliente.dto.UsuarioDTO;
+import com.aplicacion.aplicacionfx.modelo.RegistroContraseñaUI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
@@ -19,6 +20,7 @@ public class UsuarioApiClient {
     private final OkHttpClient client = new OkHttpClient();
     private final Gson gson = new Gson();
     private static final String BASE_URL = "http://localhost:8080/api/usuarios";
+    private  static final String BASE_URL_AUTH = "http://localhost:8080/api/auth";
 
     // Obtener todos los usuarios
     public List<UsuarioDTO> getAllUsuarios() throws IOException { // Devuelve List<UsuarioDTO>
@@ -107,6 +109,30 @@ public class UsuarioApiClient {
             }
             System.err.println("Error al eliminar usuario: " + response.code() + " - " + response.message());
             return false;
+        }
+    }
+
+    // Verificar Credenciales
+    public boolean verificarCredenciales(String email, String password) throws IOException{
+        RegistroContraseñaUI rcu = new RegistroContraseñaUI(email, password);
+        RequestBody body = RequestBody.create(gson.toJson(rcu), MediaType.parse("application/json; charset=utf-8"));
+
+        Request request = new Request.Builder()
+                .url(BASE_URL_AUTH + "/login")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()){
+            if (response.isSuccessful() && response.body() != null){
+                return Boolean.parseBoolean(request.body().toString());
+            } else if (response.code() == 401){
+                System.err.println("Autentificacion fallida:  Credenciales inválidas.");
+                return false;
+            } else {
+                String errorMessage = "Error en la validacion";
+                System.err.println(errorMessage);
+                throw new IOException(errorMessage);
+            }
         }
     }
 }

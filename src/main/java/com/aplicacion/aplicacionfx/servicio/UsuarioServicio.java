@@ -2,6 +2,7 @@ package com.aplicacion.aplicacionfx.servicio;
 
 import com.aplicacion.aplicacionfx.cliente.api.UsuarioApiClient;
 import com.aplicacion.aplicacionfx.cliente.dto.UsuarioDTO;
+import com.aplicacion.aplicacionfx.modelo.RegistroContraseñaUI;
 import com.aplicacion.aplicacionfx.modelo.UsuarioUI;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,7 +10,6 @@ import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class UsuarioServicio {
     private final UsuarioApiClient apiClient;
@@ -26,7 +26,6 @@ public class UsuarioServicio {
                 Long.toString(dto.getId()),
                 dto.getNombre(),
                 dto.getEmail(),
-                dto.getPasswordHash(),
                 dto.getRol(),
                 dto.isActivo()
         );
@@ -39,7 +38,7 @@ public class UsuarioServicio {
                 null,
                 ui.getNombre(),
                 ui.getEmail(),
-                ui.getPasswordHash(),
+                ui.getPasswordPlana(),
                 ui.getRol(),
                 ui.isActivo()
         );
@@ -109,5 +108,14 @@ public class UsuarioServicio {
             throw new IllegalArgumentException("El ID proporcionado no es un número válido: " + id, e);
         }
         apiClient.deleteUsuario(idLong);
+    }
+
+    //Ver si puede inicar sesion
+    public boolean verificarLogin(String gmail, String password) throws IOException {
+        if (gmail != null || password != null){
+            return apiClient.verificarCredenciales(gmail, password);
+        } else {
+            return false;
+        }
     }
 }

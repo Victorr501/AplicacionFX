@@ -2,15 +2,13 @@ package com.aplicacion.aplicacionfx.modelo;
 
 import javafx.beans.property.*;
 
-import java.time.LocalDate;
-
 public class UsuarioUI {
     //Parametros
     private StringProperty id;
     private StringProperty nombre;
     private StringProperty email;
 
-    private StringProperty passwordHash;
+    private StringProperty passwordPlana;
     private StringProperty rol;
     private BooleanProperty activo;
 
@@ -20,6 +18,7 @@ public class UsuarioUI {
     public UsuarioUI() {
     }
 
+    //Este se utiliza para el nomral, quiere decir que no tiene contraseña
     public UsuarioUI(String id, String nombre, String email, String rol, Boolean activo){
         this.id = new SimpleStringProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
@@ -28,11 +27,12 @@ public class UsuarioUI {
         this.activo = new SimpleBooleanProperty(activo);
     }
 
+    //Este se utiliza para regristrar
     public UsuarioUI(String id, String nombre, String email,String passwrodHash, String rol, Boolean activo){
         this.id = new SimpleStringProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.email = new SimpleStringProperty(email);
-        this.passwordHash = new SimpleStringProperty(passwrodHash);
+        this.passwordPlana = new SimpleStringProperty(passwrodHash);
         this.rol = new SimpleStringProperty(rol);
         this.activo = new SimpleBooleanProperty(activo);
     }
@@ -43,7 +43,7 @@ public class UsuarioUI {
     public String getId(){return id.get();}
     public String getNombre(){return nombre.get();}
     public String getEmail(){return email.get();}
-    public String getPasswordHash() { return passwordHash.get(); }
+    public String getPasswordPlana() { return passwordPlana.get(); }
     public String getRol(){return rol.get();}
     public Boolean isActivo(){return activo.get();}
 
@@ -57,7 +57,7 @@ public class UsuarioUI {
     public void setEmail(String email) {
         this.email.set(email);
     }
-    public void setPasswordHash(String passwordHash) { this.passwordHash.set(passwordHash); }
+    public void setPasswordPlana(String passwordPlana) { this.passwordPlana.set(passwordPlana); }
     public void setRol(String rol) {
         this.rol.set(rol);
     }
@@ -74,7 +74,7 @@ public class UsuarioUI {
     public StringProperty Email() {
         return email;
     }
-    public StringProperty passwordHashProperty() { return passwordHash; }
+    public StringProperty passwordPlanaProperty() { return passwordPlana; }
     public StringProperty Rol() {
         return rol;
     }
